@@ -32,8 +32,11 @@ export function rerender_alert_words_ui() {
 }
 
 function update_alert_word_status(status_text, is_error) {
+<<<<<<< HEAD
     // Use the defaultMessage if the message param is undefined, else use the custom message.
     status_text = status_text.message || status_text.defaultMessage;
+=======
+>>>>>>> 8fc811dfa92a7212bcf7e807f95603ea82fe19bd
     const $alert_word_status = $("#alert_word_status");
     if (is_error) {
         $alert_word_status.removeClass("alert-success").addClass("alert-danger");
@@ -82,7 +85,7 @@ function remove_alert_word(alert_word) {
             );
         },
         error() {
-            update_alert_word_status({defaultMessage: "Error removing alert word!"}, true);
+            update_alert_word_status(({defaultMessage: "Error removing alert word!"}), true);
         },
     });
 }
