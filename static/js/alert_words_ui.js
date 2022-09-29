@@ -32,6 +32,8 @@ export function rerender_alert_words_ui() {
 }
 
 function update_alert_word_status(status_text, is_error) {
+    // Use the defaultMessage if the message param is undefined, else use the custom message.
+    status_text = status_text.message || status_text.defaultMessage;
     const $alert_word_status = $("#alert_word_status");
     if (is_error) {
         $alert_word_status.removeClass("alert-success").addClass("alert-danger");
@@ -69,13 +71,18 @@ function remove_alert_word(alert_word) {
         url: "/json/users/me/alert_words",
         data: {alert_words: JSON.stringify(words_to_be_removed)},
         success() {
+            // Added the message key to the object because the defaultMessage cannot take in a template literal or a string literal with a variable.
+            // Some small tweaks on how the update message is passed.
             update_alert_word_status(
-                $t({defaultMessage: "Alert word removed successfully!"}),
+                {
+                    defaultMessage: "Alert word removed successfully!",
+                    message: `Alert word '${alert_word}' removed successfully!`,
+                },
                 false,
             );
         },
         error() {
-            update_alert_word_status($t({defaultMessage: "Error removing alert word!"}), true);
+            update_alert_word_status({defaultMessage: "Error removing alert word!"}, true);
         },
     });
 }
